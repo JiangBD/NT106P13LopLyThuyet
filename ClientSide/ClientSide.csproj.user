@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\22520355-HoangTruongGiang-Exercise3\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="AllMyShelvesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="BookUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="BrowseBookshelfForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ChooseShelvesToAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LoggedInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MyBookShelfUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="SearchBooksUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="SignUpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
