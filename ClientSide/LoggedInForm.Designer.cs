@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoggedInForm));
             panel1 = new Panel();
+            linkLabel1 = new LinkLabel();
             btLogout = new Button();
             btMyShelves = new Button();
             btSearchBooks = new Button();
@@ -43,6 +44,7 @@
             // panel1
             // 
             panel1.BackColor = Color.Bisque;
+            panel1.Controls.Add(linkLabel1);
             panel1.Controls.Add(btLogout);
             panel1.Controls.Add(btMyShelves);
             panel1.Controls.Add(btSearchBooks);
@@ -54,13 +56,24 @@
             panel1.Size = new Size(238, 581);
             panel1.TabIndex = 0;
             // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.Location = new Point(3, 244);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(119, 25);
+            linkLabel1.TabIndex = 5;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "Đổi mật khẩu";
+            linkLabel1.Click += linkLabel1_Click;
+            // 
             // btLogout
             // 
             btLogout.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btLogout.BackgroundImageLayout = ImageLayout.None;
             btLogout.Image = Properties.Resources.logout222221;
             btLogout.ImageAlign = ContentAlignment.MiddleLeft;
-            btLogout.Location = new Point(0, 289);
+            btLogout.Location = new Point(0, 354);
             btLogout.Name = "btLogout";
             btLogout.Size = new Size(238, 47);
             btLogout.TabIndex = 4;
@@ -72,7 +85,7 @@
             // btMyShelves
             // 
             btMyShelves.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            btMyShelves.Location = new Point(0, 245);
+            btMyShelves.Location = new Point(0, 310);
             btMyShelves.Name = "btMyShelves";
             btMyShelves.Size = new Size(238, 47);
             btMyShelves.TabIndex = 3;
@@ -83,7 +96,7 @@
             // btSearchBooks
             // 
             btSearchBooks.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            btSearchBooks.Location = new Point(0, 202);
+            btSearchBooks.Location = new Point(0, 267);
             btSearchBooks.Name = "btSearchBooks";
             btSearchBooks.Size = new Size(238, 47);
             btSearchBooks.TabIndex = 2;
@@ -130,6 +143,7 @@
             Name = "LoggedInForm";
             Text = "MyApp";
             FormClosed += LoggedInForm_FormClosed;
+            Load += LoggedInForm_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbUserIcon).EndInit();
@@ -145,5 +159,6 @@
         private Button btSearchBooks;
         private Button btMyShelves;
         private Button btLogout;
+        private LinkLabel linkLabel1;
     }
 }

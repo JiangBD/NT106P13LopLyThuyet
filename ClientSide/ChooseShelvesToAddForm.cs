@@ -30,8 +30,8 @@ namespace ClientSide
         private async void btAdd_Click(object sender, EventArgs e)
         {
             if (checkedListBox1.CheckedItems.Count > 0)
-            {   foreach (var x in checkedListBox1.CheckedItems)
-                {
+            {   foreach (object x in checkedListBox1.CheckedItems)
+                {   
                     string shelfTitle = x.ToString();
                     string shelfId = "";
                     foreach (var y in CurrentGoogleBooksUser.User.Bookshelves)

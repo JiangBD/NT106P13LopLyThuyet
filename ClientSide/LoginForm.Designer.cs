@@ -34,6 +34,7 @@
             tbPassword = new TextBox();
             btnLogin = new Button();
             linkLbSignUp = new LinkLabel();
+            linkLbForgetPassword = new LinkLabel();
             SuspendLayout();
             // 
             // label1
@@ -85,7 +86,7 @@
             // 
             linkLbSignUp.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             linkLbSignUp.AutoSize = true;
-            linkLbSignUp.Location = new Point(451, 338);
+            linkLbSignUp.Location = new Point(444, 332);
             linkLbSignUp.MaximumSize = new Size(120, 35);
             linkLbSignUp.Name = "linkLbSignUp";
             linkLbSignUp.Size = new Size(73, 25);
@@ -94,6 +95,23 @@
             linkLbSignUp.Text = "Đăng kí";
             linkLbSignUp.Click += linkLbSignUp_Click;
             // 
+            // linkLbForgetPassword
+            // 
+            linkLbForgetPassword.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            linkLbForgetPassword.AutoSize = true;
+            linkLbForgetPassword.Font = new Font("Segoe UI", 9F);
+            linkLbForgetPassword.LinkArea = new LinkArea(0, 17);
+            linkLbForgetPassword.Location = new Point(444, 368);
+            linkLbForgetPassword.MaximumSize = new Size(150, 39);
+            linkLbForgetPassword.Name = "linkLbForgetPassword";
+            linkLbForgetPassword.Size = new Size(133, 30);
+            linkLbForgetPassword.TabIndex = 7;
+            linkLbForgetPassword.TabStop = true;
+            linkLbForgetPassword.Text = "Quên mật khẩu";
+            linkLbForgetPassword.TextAlign = ContentAlignment.MiddleCenter;
+            linkLbForgetPassword.UseCompatibleTextRendering = true;
+            linkLbForgetPassword.Click += linkLbForgetPassword_Click;
+            // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -101,6 +119,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(829, 450);
+            Controls.Add(linkLbForgetPassword);
             Controls.Add(linkLbSignUp);
             Controls.Add(btnLogin);
             Controls.Add(tbPassword);
@@ -110,6 +129,7 @@
             Name = "LoginForm";
             Text = "My App";
             FormClosing += LoginForm_FormClosing;
+            Load += LoginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -121,5 +141,6 @@
         private TextBox tbPassword;
         private Button btnLogin;
         private LinkLabel linkLbSignUp;
+        private LinkLabel linkLbForgetPassword;
     }
 }

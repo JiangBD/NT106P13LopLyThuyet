@@ -12,7 +12,7 @@ namespace ClientSide
             InitializeComponent();
             LoginSuccessDelegate = new LoginResultDialogDelegate(ShowLoginSuccessDialog);
             LoginFailureDelegate = new LoginResultDialogDelegate(ShowLoginFailureDialog);
-            
+
         }
         public void ClearPasswordField()
         {
@@ -32,6 +32,7 @@ namespace ClientSide
         }
         private void linkLbSignUp_Click(object sender, EventArgs e)
         {
+
             new SignUpForm().ShowDialog();
         }
 
@@ -65,7 +66,17 @@ namespace ClientSide
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            
+
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLbForgetPassword_Click(object sender, EventArgs e)
+        {
+            new ForgotPasswordForm().ShowDialog();
         }
     }
 }

@@ -120,6 +120,33 @@ public class SQLServerDatabaseAccessor
             else return false;
         }
     }
+    public static void UpdatePassword(string targetUserName, string newPasswordHash)
+    {
+        //string connectionString = "YourConnectionStringHere"; // Replace with your connection string
+        //string newPassword = "thisisnewpassword";
+        //string targetUserName = "nhockute24";
+
+        string query = "UPDATE Users SET PasswordHash = @PasswordHash WHERE UserName = @UserName";
+
+        
+            SqlCommand command = new SqlCommand(query, instance.connection);
+            command.Parameters.AddWithValue("@PasswordHash", newPasswordHash);
+            command.Parameters.AddWithValue("@UserName", targetUserName);
+
+            try
+            {                
+                int rowsAffected = command.ExecuteNonQuery();
+                Console.WriteLine(rowsAffected > 0
+                    ? "Password updated successfully."
+                    : "No user found with the specified UserName.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
+        
+    }
+
     public static void Close()
     {
         instance.connection.Close();
@@ -134,8 +161,7 @@ public class SQLServerDatabaseAccessor
             for (int i = 0; i < bytes.Length; i++)
             {
                 builder.Append(bytes[i].ToString("x2"));
-            }
-            
+            }            
             return builder.ToString(); 
         }
     }

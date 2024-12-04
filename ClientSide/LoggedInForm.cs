@@ -26,13 +26,13 @@ namespace ClientSide
 
         private void btLogout_Click(object sender, EventArgs e)
         {
-          if(UserName != "11")  Station.SendLogoutRequest(UserName);
+            if (UserName != "11") Station.SendLogoutRequest(UserName);
         }
 
         private void LoggedInForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             CurrentGoogleBooksUser.InvalidateCurrentGoogleBooksUser();
-            
+
             lf.Show();
         }
 
@@ -53,7 +53,7 @@ namespace ClientSide
             panel1.Enabled = false;
             if (GoogleBooksWorker.IsConnectedToTheInternet())
             {
-                
+
                 if (CurrentGoogleBooksUser.User.Credential == null)
                 {
                     Task.Run(async () =>
@@ -81,12 +81,28 @@ namespace ClientSide
         }
 
         private void btLogout_Click_1(object sender, EventArgs e)
-        {   
-            if (!UserName.Equals("11"))            
-            Station.SendLogoutRequest(UserName);
+        {
+            if (!UserName.Equals("11"))
+                Station.SendLogoutRequest(UserName);
 
             this.Close();
-            
+
+        }
+
+        private void LoggedInForm_Load(object sender, EventArgs e)
+        {
+            while (Station.IsUsingTemporaryPassword)
+            {
+                (new ChangePasswordForm()).ShowDialog();
+                Thread.Sleep(100);
+            }
+
+
+        }
+
+        private void linkLabel1_Click(object sender, EventArgs e)
+        {
+            (new ChangePasswordForm()).ShowDialog();
         }
     }
 }

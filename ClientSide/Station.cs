@@ -4,9 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ClientSide
 {
@@ -15,13 +13,24 @@ namespace ClientSide
         private static readonly object lockObject = new();
         private static string serverIP = "127.0.0.1"; // Replace with a real one
         private static int serverPort = 65009;
-        //private static Station instance;
 
-        //private Station(){}
-        /*public static void StartStation()
+        private static Station instance;
+        private User CurrentUser;
+        private bool isUsingTemporaryPassword;
+
+        private Station(){}
+        public static void StartStation()
         {
-            if ( instance == null ) instance = new Station(); 
-        }*/
+            if (instance == null)
+            {
+                instance = new Station();
+                instance.CurrentUser = new User("","","","",new DateTime() );            
+            }
+            
+       }
+        public static string GetCurrentUsername()
+        { return instance.CurrentUser.UserName; }
+        public static bool IsUsingTemporaryPassword { get { return instance.isUsingTemporaryPassword; } }
         //  public static void SetCurrentUser(User user) { instance.currentUser = user;  }
         private string ReceiveMessage(NetworkStream stream)
         {
@@ -46,7 +55,7 @@ namespace ClientSide
 
             while (true)
             {
-                int bytesRead = stream.Read(buffer, totalBytesRead, buffer.Length);
+                int bytesRead = stream.Read(buffer, totalBytesRead, buffer.Length - totalBytesRead);
                 totalBytesRead += bytesRead;
                 if (buffer[totalBytesRead - 1] == 0) break;
             }
@@ -63,7 +72,7 @@ namespace ClientSide
             
             while (true)
             {
-                int bytesRead = await stream.ReadAsync(buffer, totalBytesRead, buffer.Length);
+                int bytesRead = await stream.ReadAsync(buffer, totalBytesRead, buffer.Length - totalBytesRead);
                 totalBytesRead += bytesRead;
                 if (buffer[totalBytesRead - 1] == 0) break;
             }
@@ -73,9 +82,8 @@ namespace ClientSide
             return messageWithNull;
         }
         public static void SendRegistrationRequest(User u, SignUpForm form)
-        {// 0:::USERNAME:::P_HASH:::FULLNAME:::EMAIL:::DOB 
-            string datestr = u.DoB.Day + " " + u.DoB.Month + " " + u.DoB.Year;
-            
+        {// 0:::USERNAME:::P_HASH:::FULLNAME:::EMAIL:::DOB
+            string datestr = u.DoB.Day + " " + u.DoB.Month + " " + u.DoB.Year;            
 
             string request =
                 $"0:::{u.UserName}:::{u.PasswordHash}:::{u.FullName}:::{u.Email}:::{datestr}\0";
@@ -107,6 +115,68 @@ namespace ClientSide
                 }
             });
         }
+        public static void SendChangePasswordRequest(string username, string newPassword, ChangePasswordForm form)
+        {//3:::<USERNAME>:::<NEWPASSWORD>  3:::nhotkute88:::Daylamatkhaumoi123@
+            string request =
+                $"3:::{username}:::{newPassword}\0";
+            Task.Run(async () =>
+            {
+            try
+            {
+                using (TcpClient client = new TcpClient())
+                {
+                    await client.ConnectAsync(serverIP, serverPort);
+                    NetworkStream stream = client.GetStream();
+                    byte[] requestBytes = Encoding.UTF8.GetBytes(request);
+                    stream.Write(requestBytes, 0, requestBytes.Length);
+
+                }
+                instance.isUsingTemporaryPassword = false;
+                form.Invoke(() =>{ MessageBox.Show($"Đổi mật khẩu thành công."); form.Close(); });
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Đã xảy ra lỗi, vui lòng thử lại.");
+                }
+            });
+        }
+        public static void SendForgotPasswordRequest(string username, string emailAddress, ForgotPasswordForm form)
+        {//4:::<USERNAME>:::<EMAIL>  4:::nhotkute88:::22520222@gm.uit.edu.vn
+            string request =
+                $"4:::{username}:::{emailAddress}\0";
+            Task.Run(async () =>
+            {
+                try
+                {
+                    using (TcpClient client = new TcpClient())
+                    {
+                        await client.ConnectAsync(serverIP, serverPort);
+                        NetworkStream stream = client.GetStream();
+                        byte[] requestBytes = Encoding.UTF8.GetBytes(request);
+                        stream.Write(requestBytes, 0, requestBytes.Length);
+                        string reply = await ReceiveMessagesAsync(stream);
+                        if (reply.Equals("1")) // Successful
+                        {
+                            form.Invoke(() => { MessageBox.Show("Hệ thống đã gửi hướng dẫn đăng nhập,\nVui lòng kiểm tra email của bạn!");
+                            form.Close(); });
+                        }
+                        else
+                        {
+                            form.Invoke(() => MessageBox.Show("Thông tin đã nhập không hợp lệ!"));
+                        }
+
+                    }
+                    
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Đã xảy ra lỗi, vui lòng thử lại.");
+                }
+            });
+
+
+        }
+
         public static void SendLoginRequest(string username, string pswd, LoginForm form)
         {
             if (username.Equals("11") ) //CHEAT, for testing
@@ -134,10 +204,14 @@ namespace ClientSide
                         
                         string[] fields = reply.Split(":::");
                         if (fields[1].Equals("1")) // Successful
-                        {   // 1:::1:::FullName:::DoB
+                        {   // 1:::1:::FullName:::DoB:::UserName:::<1 or 0:IsUsingTemporaryPassword>
+                            int x = int.Parse(fields[5]);
+                            instance.isUsingTemporaryPassword = (x == 1);
+
+                            instance.CurrentUser.UserName = fields[4];
                             form.Invoke(() => {
                             form.Hide(); form.ClearPasswordField();
-                                new LoggedInForm(fields[2], fields[3],username,form).Show(); });                                                   
+                                new LoggedInForm(fields[4] + "\n" + fields[2], fields[3],username,form).Show(); });                                                   
                         }
                         if (fields[1].Equals("0"))
                         {

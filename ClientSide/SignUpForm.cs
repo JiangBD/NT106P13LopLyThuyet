@@ -99,7 +99,7 @@ namespace ClientSide
                   if (this.HasUnicodeCharacter(tbNewUserName.Text) || this.HasUnicodeCharacter(tbPswd.Text))
                   { this.Invoke(HasUnicodeCharacterDelegate); return; }
                   if (!tbPswd.Text.Equals(tbConfirmPswd.Text))
-                  { this.Invoke(() => { MessageBox.Show("Mật khẩu và xác nhận mật khẩu không khớp!"); return; });     }
+                  { this.Invoke(() => { MessageBox.Show("Mật khẩu và xác nhận mật khẩu không khớp!"); }); return; }
                   if (!this.HasSpecialCharacter(tbPswd.Text)) { this.Invoke(NoSpecialCharacterDelegate); return; }
                   if (this.HasEmptyField()) { this.Invoke(EmptyFieldDelegate); return; }
                   if (!IsValidEmail())
