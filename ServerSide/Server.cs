@@ -209,7 +209,7 @@ namespace TCPServer
             instance.allUsers[username].PasswordHash = newPasswordHash;
         }
         private static void HandleForgotPasswordRequest(string message, NetworkStream stream)
-        {//4:::<USERNAME>:::<EMAIL>  4:::nhotkute88:::22520222@gm.uit.edu.vn 
+        {//4:::<USERNAME>:::<EMAIL>  4:::nhotkute88:::22520122@gm.uit.edu.vn 
             string[] fields = message.Split(":::");
             string receivedUsername = fields[1]; string receivedEmailAddress = fields[2];
             if (!instance.allUsers.ContainsKey(receivedUsername))
@@ -249,8 +249,8 @@ namespace TCPServer
             string smtpServer = "smtp.gmail.com";
             int smtpPort = 587;
 
-            string email = "ntmtw48@gmail.com"; //youremailaddress@gmail.com
-            string appPassword = "yhen cnfj lhry njjc"; //your_app_password          
+            string email = "youremailaddress@gmail.com"; //youremailaddress@gmail.com
+            string appPassword = "your_app_password "; //your_app_password          
 
             string subject = "MẬT KHẨU TẠM THỜI";
             StringBuilder stringBuilder = new StringBuilder();
